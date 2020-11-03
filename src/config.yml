@@ -1,0 +1,38 @@
+
+Inventory:
+  BossEggs:
+    Title: "&cBoss Eggs"
+    BackgroundItem: BLACK_STAINED_GLASS_PANE
+Bosses:
+  Piglin:
+    Entity:
+      Name: "&cPiglin Boss"
+      # ArmorTypes: "IRON", "GOLD", "DIAMOND", "NETHERITE", "NONE"
+      ArmorType: "NETHERITE"
+      ProtectionLevel: 20
+      ArmorUnbreakable: true
+      Health: 150
+    Egg:
+      Material: "PIGLIN_SPAWN_EGG"
+      Name: "&cPiglin Boss"
+      Glowing: false
+      Lore:
+      - '&7Summon this boss in pvp'
+    Pvp:
+      # {HEALTH} - Boss' health remaining
+      # {MAXHEALTH} - Boss' max health
+      HitMessage: "HP Left: {HEALTH}"
+      # Format - "<ITEM> <AMOUNT>"
+      Drops:
+      - "DIAMOND 64"
+      - "EMERALD 128"
+      #Commands that are ran when boss dies
+      Commands:
+      - "bc &bBoss Defeated"
+      ExperienceDrop: 1000
+      #Commands that are ran when the boss dies for the player who killed the boss
+      # {PLAYER} - Player who killed the boss
+      FinalHitCommands:
+      - "give {PLAYER} DIAMOND 64"
+      - "bc {PLAYER} got the last hit on the boss and won 64 diamonds"
+    
