@@ -4,11 +4,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
 
 public interface Boss {
-	
-	public abstract ItemStack bossEgg();
 	
 	@EventHandler
 	public abstract void onSpawn(PlayerInteractEvent e);

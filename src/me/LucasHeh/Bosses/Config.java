@@ -1,11 +1,14 @@
 package me.LucasHeh.Bosses;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
 import me.LucasHeh.Bosses.Enums.ArmorType;
@@ -13,6 +16,8 @@ import me.LucasHeh.Bosses.Enums.ArmorType;
 public class Config {
 
 	private static FileConfiguration config = Main.getInstance().getConfig();
+	
+	public static final String COMMANDS_NOPERMISSION = ChatColor.translateAlternateColorCodes('&', config.getString("Commands.NoPermission"));
 	
 	public static final String INVENTORY_BOSSEGGS_TITLE = ChatColor.translateAlternateColorCodes('&', config.getString("Inventory.BossEggs.Title"));
 	public static final Material INVENTORY_BOSSEGGS_BACKGROUNDITEM = Material.getMaterial(config.getString("Inventory.BossEggs.Title"));
@@ -29,6 +34,9 @@ public class Config {
 	public static final int BOSSES_PIGLIN_ENTITY_PROTECTIONLEVEL = config.getInt("Bosses.Piglin.Entity.ProtectionLevel");
 	public static final boolean BOSSES_PIGLIN_ENTITY_ARMORUNBREAKABLE = config.getBoolean("Bosses.Piglin.Entity.ArmorUnbreakble");
 	public static final double BOSSES_PIGLIN_ENTITY_HEALTH = config.getDouble("Bosses.Piglin.Entity.Health");
+	private static final Material BOSSES_PIGLIN_ENTITY_ITEMTYPE = Material.getMaterial(config.getString("Bosses.Piglin.Entity.ItemType"));
+	public static final ItemStack BOSSES_PIGLIN_ENTITY_ITEM = getItemInHand(BOSSES_PIGLIN_ENTITY_ITEMTYPE, config.getStringList("Bosses.Piglin.Entity.ItemEnchants"));
+	
 	public static final Material BOSSES_PIGLIN_EGG_MATERIAL = Material.valueOf(config.getString("Bosses.Piglin.Egg.Material"));
 	public static final String BOSSES_PIGLIN_EGG_NAME = ChatColor.translateAlternateColorCodes('&', config.getString("Bosses.Piglin.Egg.Name"));
 	public static final boolean BOSSES_PIGLIN_EGG_GLOWING = config.getBoolean("Bosses.Piglin.Egg.Glowing");
@@ -41,7 +49,17 @@ public class Config {
 	public static final int BOSSES_PIGLIN_PVP_EXPERIENCEDROP = config.getInt("Bosses.Piglin.Pvp.ExperienceDrop");
 	public static final List<String> BOSSES_PIGLIN_PVP_FINALHITCOMMANDS = config.getStringList("Bosses.Piglin.Pvp.FinalHitCommands");
 	
-	
+	@SuppressWarnings("deprecation")
+	private static ItemStack getItemInHand(Material itemType, List<String> enchants) {
+		ItemStack item = new ItemStack(itemType);
+		Map<Enchantment, Integer> enchantList = new HashMap<Enchantment, Integer>();
+		for(String string : enchants) {
+			String[] stringSplit = string.split("\\s+");
+			enchantList.put(Enchantment.getByName(stringSplit[0]), Integer.valueOf(stringSplit[1]));
+		}
+		item.addUnsafeEnchantments(enchantList);
+		return item;
+	}
 	
 	private static List<ItemStack> convertStringListToItemStackList(List<String> list){
 		List<ItemStack> items = new ArrayList<ItemStack>();

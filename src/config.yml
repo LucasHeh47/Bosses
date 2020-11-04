@@ -1,16 +1,25 @@
 
+Commands:
+  NoPermission: "&cYou do not have permission to run this"
+
 Inventory:
   BossEggs:
     Title: "&cBoss Eggs"
     BackgroundItem: BLACK_STAINED_GLASS_PANE
+    
 Bosses:
   Piglin:
     Entity:
       Name: "&cPiglin Boss"
       # ArmorTypes: "IRON", "GOLD", "DIAMOND", "NETHERITE", "NONE"
-      ArmorType: "NETHERITE"
+      ArmorType: "DIAMOND"
       ProtectionLevel: 20
       ArmorUnbreakable: true
+      ItemType: "DIAMOND_SWORD"
+      #ItemEnchants example: "<ENCHANTMENT> <LEVEL>"
+      ItemEnchants:
+      - "DAMAGE_ALL 10"
+      - "FIRE_ASPECT 2"
       Health: 150
     Egg:
       Material: "PIGLIN_SPAWN_EGG"

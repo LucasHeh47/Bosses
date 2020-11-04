@@ -3,7 +3,6 @@ package me.LucasHeh.Bosses.Boss;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -11,33 +10,22 @@ import org.bukkit.entity.Piglin;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import me.LucasHeh.Bosses.Config;
 import me.LucasHeh.Bosses.Main;
+import me.LucasHeh.Bosses.Utils;
+import me.LucasHeh.Bosses.Enums.BossType;
 
-public class PiglinBoss implements Boss{
+public class PiglinBoss implements Boss, Listener{
 	
 	private Main main = Main.getInstance();
-
-	public ItemStack bossEgg() {
-		ItemStack item = new ItemStack(Config.BOSSES_PIGLIN_EGG_MATERIAL);
-		ItemMeta meta = item.getItemMeta();
-		meta.setDisplayName(Config.BOSSES_PIGLIN_EGG_NAME);
-		meta.setLore(Config.BOSSES_PIGLIN_EGG_LORE);
-		if(Config.BOSSES_PIGLIN_EGG_GLOWING) {
-			meta.addEnchant(Enchantment.DURABILITY, 1, false);
-			meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-		}
-		item.setItemMeta(meta);
-		return item;
-	}
+	private Utils utils = main.getUtils();
 
 	@SuppressWarnings("deprecation")
 	@EventHandler
@@ -49,7 +37,7 @@ public class PiglinBoss implements Boss{
 			e.setCancelled(true);
 			Location location = e.getClickedBlock().getLocation().add(0, 1, 0);
 			Piglin zombie = location.getWorld().spawn(location, Piglin.class);
-			e.getPlayer().getInventory().remove(bossEgg());
+			e.getPlayer().getInventory().remove(main.piglinEgg());
 			zombie.setImmuneToZombification(true);
 			zombie.setCustomName(ChatColor.translateAlternateColorCodes('&', Config.BOSSES_PIGLIN_ENTITY_NAME));
 			zombie.setMaxHealth(Config.BOSSES_PIGLIN_ENTITY_HEALTH);
@@ -58,25 +46,23 @@ public class PiglinBoss implements Boss{
 			zombie.setCustomNameVisible(true);
 			zombie.setBaby(false);
 			
-			ItemStack helmet = new ItemStack(Material.DIAMOND_HELMET);
+			ItemStack helmet = new ItemStack(utils.getHelmet(BossType.Piglin));
 			helmet.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, Config.BOSSES_PIGLIN_ENTITY_PROTECTIONLEVEL);
 			zombie.getEquipment().setHelmet(helmet);
 
-			ItemStack chestplate = new ItemStack(Material.DIAMOND_CHESTPLATE);
+			ItemStack chestplate = new ItemStack(utils.getChestplate(BossType.Piglin));
 			chestplate.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, Config.BOSSES_PIGLIN_ENTITY_PROTECTIONLEVEL);
 			zombie.getEquipment().setChestplate(chestplate);
 
-			ItemStack leggings = new ItemStack(Material.DIAMOND_LEGGINGS);
+			ItemStack leggings = new ItemStack(utils.getChestplate(BossType.Piglin));
 			leggings.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, Config.BOSSES_PIGLIN_ENTITY_PROTECTIONLEVEL);
 			zombie.getEquipment().setLeggings(leggings);
 
-			ItemStack boots = new ItemStack(Material.DIAMOND_BOOTS);
+			ItemStack boots = new ItemStack(utils.getChestplate(BossType.Piglin));
 			boots.addUnsafeEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, Config.BOSSES_PIGLIN_ENTITY_PROTECTIONLEVEL);
 			zombie.getEquipment().setBoots(boots);
 			
-			ItemStack sword = new ItemStack(Material.DIAMOND_SWORD);
-			sword.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 100);
-			zombie.getEquipment().setItemInMainHand(sword);
+			zombie.getEquipment().setItemInMainHand(Config.BOSSES_PIGLIN_ENTITY_ITEM);
 		}
 	}
 	

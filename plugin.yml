@@ -1,0 +1,8 @@
+main: me.LucasHeh.Bosses
+author: LucasHeh
+version: 1.0.0
+name: Bosses
+
+commands:
+  boss:
+    description: "Give yourself a boss egg (bosses.give)"
